@@ -90,7 +90,6 @@ void eraseMap(HashMap * map,  char * key) {
     i = (i+1)%map->capacity;
     
   }
-  
 
 }
 
@@ -100,11 +99,12 @@ Pair * searchMap(HashMap * map,  char * key) {
   while(map->buckets[i]!=NULL && map->buckets[i]->key!=NULL){
     if(is_equal(map->buckets[i]->key,key)){
       map->current = i;
+      return map->buckets[i];
     }
     i = (i+1)%map->capacity;
     
   }
-  return map->buckets[i];
+  return NULL;
   
 }
 
