@@ -41,12 +41,12 @@ int is_equal(void* key1, void* key2){
 
 void insertMap(HashMap * map, char * key, void * value) {
     if(map==NULL || key==NULL || value==NULL) return; 
-    long aux = hash(key,map->capacity);
-    while(map->buckets[aux]!=NULL && map->buckets[aux]->key!=NULL){ 
-        aux = (aux+1)%map->capacity;
+    long i = hash(key,map->capacity);
+    while(map->buckets[i]!=NULL && map->buckets[i]->key!=NULL){ 
+        i = (i+1)%map->capacity;
       
     }
-    map->buckets[aux] = createPair(key,value);
+    map->buckets[i] = createPair(key,value);
     map->size++;
     
 
@@ -80,14 +80,14 @@ HashMap * createMap(long capacity) {
 
 void eraseMap(HashMap * map,  char * key) {    
   if(map==NULL || key==NULL) return;
-  long aux = hash(key,map->capacity);
-  while(map->buckets[aux]!=NULL && map->buckets[aux]->key!=NULL){
-    if(is_equal(map->buckets[aux]->key,key)){
-      map->buckets[aux]->key=NULL;
+  long i = hash(key,map->capacity);
+  while(map->buckets[i]!=NULL && map->buckets[i]->key!=NULL){
+    if(is_equal(map->buckets[i]->key,key)){
+      map->buckets[i]->key=NULL;
       map->size--;
       return;
     }
-    aux = (aux+1)%map->capacity;
+    i = (i+1)%map->capacity;
     
   }
   
@@ -95,25 +95,21 @@ void eraseMap(HashMap * map,  char * key) {
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
-long posicion = hash(key, map->capacity);
-  long posicionOriginal = posicion;
-
-  while(map->buckets[posicion] != NULL && map->buckets[posicion]->key != NULL)
-  {
-    if(strcmp(map->buckets[posicion]->key, key) == 0)
-    {
-      map->current = posicion;
-      return map->buckets[posicion];
+  if(map==NULL || key==NULL) return NULL;
+  long i = hash(key,map->capacity);
+  while(map->buckets[i]!=NULL && map->buckets[i]->key!=NULL){
+    if(is_equal(map->buckets[i]->key,key)){
+      map->current = i;
     }
-    posicion = (posicion +1) % map->capacity;
-    if(posicion == posicionOriginal)
-      return NULL;
+    i = (i+1)%map->capacity;
+    
   }
-  return NULL;
-
+  return map->buckets[i];
+  
 }
 
 Pair * firstMap(HashMap * map) {
+    
     return NULL;
 }
 
